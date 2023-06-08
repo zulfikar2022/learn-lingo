@@ -7,11 +7,12 @@ import Instructor from "./instructor";
 import SingleClass from "../Classes/Class";
 import { useEffect, useState } from "react";
 import useAuthContext from "../../hooks/useAuthContext";
+import useUserRole from "../../hooks/useUserRole";
 
 const HomePage = () => {
   const {user} = useAuthContext();
-  const [userRole, setUserRole] = useState("");
-  const userEmail = user?.email;
+  const userRole = useUserRole();
+  
   const { axiosNormal } = useAxios();
   const { data: instructors = [], isLoading } = useQuery({
     queryKey: ["popularInstructors"],
@@ -28,12 +29,7 @@ const HomePage = () => {
       return res.data;
     }
   })
-  useEffect(() => {
-    console.log('from inside the useEffect');
-    fetch(`http://localhost:5000/userRole?email=${userEmail}`)
-        .then(res => res.json())
-        .then(data => setUserRole(data.role))    
-  }, [userEmail]);
+
   return (
     <div>
       <Helmet>

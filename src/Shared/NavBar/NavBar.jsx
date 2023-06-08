@@ -24,6 +24,11 @@ const NavBar = () => {
       <li>
         <Link to='/classes'>Classes</Link>
       </li>
+      <li>
+        {
+         
+        }
+      </li>
     </>
   );
   return (

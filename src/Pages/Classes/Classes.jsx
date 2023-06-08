@@ -5,6 +5,7 @@ import Class from "./Class";
 import SingleClass from "./Class";
 import { useEffect, useState } from "react";
 import useAuthContext from "../../hooks/useAuthContext";
+import useUserRole from "../../hooks/useUserRole";
 
 const Classes = () => {
   const { axiosNormal } = useAxios();
@@ -17,14 +18,8 @@ const Classes = () => {
   });
 
   const { setUser, user } = useAuthContext();
-  const [userRole, setUserRole] = useState("");
-  const userEmail = user?.email;
-  useEffect(() => {
-    console.log('from inside the useEffect');
-    fetch(`http://localhost:5000/userRole?email=${userEmail}`)
-        .then(res => res.json())
-        .then(data => setUserRole(data.role))    
-  }, [userEmail]);
+  const userRole = useUserRole();
+ 
 
   return (
     <div className="grid lg:grid-cols-3 lg:px-0 lg:gap-5 sm:grid-cols-1 sm:gap-2 sm:px-4 my-5">

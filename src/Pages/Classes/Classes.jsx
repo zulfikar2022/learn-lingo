@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../hooks/useAxios";
 import Class from "./Class";
 import SingleClass from "./Class";
+import { useEffect, useState } from "react";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const Classes = () => {
   const { axiosNormal } = useAxios();
@@ -13,10 +15,35 @@ const Classes = () => {
       return result.data;
     },
   });
+
+  const {setUser,user} = useAuthContext();
+  const [userRole,setUserRole] = useState('');
+  const userEmail = user?.email;
+  useEffect(() => {
+    fetch(`http://localhost:5000/userRole?email=${userEmail}`)
+    .then(res => res.json())
+    .then(data => {
+            setUserRole(data.role);
+    })
+   },[userEmail])
+
   return (
-    <div className="grid lg:grid-cols-3 lg:px-0 lg:gap-5 sm:grid-cols-1 sm:gap-2 sm:px-4">
+    
+    <div className="grid lg:grid-cols-3 lg:px-0 lg:gap-5 sm:grid-cols-1 sm:gap-2 sm:px-4 my-5">
+       
       {classes?.map((c) => (
-       <SingleClass name={c.name} course={c.courses} key={c._id}></SingleClass>
+       <SingleClass 
+       key={c._id}
+       id={c._id}
+       instructorId={c.instructorId}
+       instructorName={c.instructorName}
+       courseName={c.courseName}
+       studentCapability={c.studentCapability}
+       enrolledStudent={c.enrolledStudent}
+       price={c.price}
+       image={c.image}
+       approvalStatus={c.approvalStatus}
+       ></SingleClass>
       ))}
       
     </div>

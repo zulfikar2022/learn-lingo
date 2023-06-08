@@ -17,6 +17,7 @@ const Instructors = () => {
       {instructors.map((instructor) => (
         <Instructor
           key={instructor._id}
+          id={instructor._id}
           name={instructor.name}
           email={instructor.email}
           imageLink={instructor.imageLink}

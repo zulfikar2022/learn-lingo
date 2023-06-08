@@ -3,17 +3,28 @@ import { useContext } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { authContext } from "../../AuthProvider/AuthProvider";
 import useAuthContext from "../../hooks/useAuthContext";
+import Swal from "sweetalert2";
 
-const SocialLogin = ({from}) => {
+const SocialLogin = ({ from }) => {
   // const { loginWithGoogle, setUser, user } = useContext(authContext);
-  const {loginWithGoogle,setUser,user} = useAuthContext();
+  const { loginWithGoogle, setUser, user } = useAuthContext();
   const handleGoogleSignIn = () => {
-    loginWithGoogle()
-        .then(result => {
-            const loggedUser = result.user;
-            setUser(loggedUser);
-            console.log('The user is  ',user);
-        })
+    loginWithGoogle().then((result) => {
+      const loggedUser = result.user;
+      setUser(loggedUser);
+      const newUser = { name: loggedUser.displayName, email: loggedUser.email,role:'student'};
+      fetch(`http://localhost:5000/users`, {
+        method: "post",
+        body: JSON.stringify(newUser),
+        headers: { "content-type": "application/json" },
+      })
+          .then(res => res.json())
+          .then(data => {
+            if(!data.insertedId){
+              Swal.fire('this mail address already exists');
+            }
+          })
+    });
   };
 
   return (

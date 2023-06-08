@@ -4,17 +4,25 @@ import Slider from "../../HomePageCompo/Slider/Slider";
 import useAxios from "../../hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import Instructor from "./instructor";
+import SingleClass from "../Classes/Class";
 
 const HomePage = () => {
   const { axiosNormal } = useAxios();
   const { data: instructors = [], isLoading } = useQuery({
-    queryKey: ["instructors"],
+    queryKey: ["popularInstructors"],
     queryFn: async () => {
-      const res = await axiosNormal.get("/instructors");
+      const res = await axiosNormal.get("/popularInstructors");
       return res.data;
     },
   });
 
+  const {data:classes=[]} = useQuery({
+    queryKey:['popularClasses'],
+    queryFn:async() => {
+      const res = await axiosNormal.get('/popularClasses');
+      return res.data;
+    }
+  })
   return (
     <div>
       <Helmet>
@@ -25,7 +33,23 @@ const HomePage = () => {
       <p className="bg-[#01a2a6] text-center p-3 text-4xl font-semibold my-6">
         Our Popular Classes
       </p>
-      {/* TODO: codes for popular classes will be here  */}
+   
+      <div className="grid lg:grid-cols-3 gap-5 sm:grid-cols-1">
+        {
+          classes.map(c => <SingleClass 
+            key={c._id}
+            id={c._id}
+            instructorId={c.instructorId}
+            instructorName={c.instructorName}
+            courseName={c.courseName}
+            studentCapability={c.studentCapability}
+            enrolledStudent={c.enrolledStudent}
+            price={c.price}
+            image={c.image}
+            approvalStatus={c.approvalStatus}
+            ></SingleClass>)
+        }
+      </div>
       <p className="bg-[#01a2a6] text-center p-3 text-4xl font-semibold my-6">
         Our Popular Instructors
       </p>

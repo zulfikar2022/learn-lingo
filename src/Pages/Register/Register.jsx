@@ -1,26 +1,26 @@
 /* eslint-disable no-unused-vars */
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "../../Shared/SocialLogin/SocialLogin";
 import Swal from "sweetalert2";
 import useAuthContext from "../../hooks/useAuthContext";
+import { useState } from "react";
 
 const Register = () => {
   const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/;
-  const { updateUserProfile, setUser } = useAuthContext();
+  const { updateUserProfile, setUser,createUser } = useAuthContext();
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
+  const [showPassword,setShowPassword] = useState(false);
+  const [showConfirmPassword,setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
   const onSubmit = (data) => {
-    console.log(data.name);
-    console.log(data.email);
-    console.log(data.password);
-    console.log(data.confirmPassword);
-    console.log(data.photoURL);
     if (data.password !== data.confirmPassword) {
       Swal.fire({
         position: "center",
@@ -33,8 +33,46 @@ const Register = () => {
     }
 
     // TODO: users login system should be implemented
-    updateUserProfile(data.name, data.photoURL)
-        .then()
+    createUser(data.email,data.password)
+        .then(result => {
+          console.log(result.user);
+          updateUserProfile(data.name,data.photoURL)
+            .then(() => {
+              const createdUser = {name:data.name, email:data.email,role:'student'};
+             fetch('http://localhost:5000/users',{
+              method:'post',
+              body:JSON.stringify(createdUser),
+              headers:{'content-type':'application/json'}
+             })
+                .then(res => res.json())
+                .then(data => {
+                  if(data.insertedId){
+                    reset();
+                    Swal.fire({
+                      position: "center",
+                      icon: "success",
+                      title: "user Created Successfully!!",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                    setUser(null);
+                    navigate('/');
+                  }
+                })
+            })
+
+        })
+        .catch(error => {
+          console.log(error.message);
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: `${error.message}`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        })
+
   };
   return (
     <div className="hero min-h-screen bg-base-200 my-5">
@@ -90,7 +128,7 @@ const Register = () => {
                 <span className="label-text">Password</span>
               </label>
               <input
-                type="password"
+                type={`${showPassword ? 'text': 'password'}`}
                 placeholder="password"
                 className="input input-bordered"
                 {...register("password", {
@@ -99,6 +137,7 @@ const Register = () => {
                   minLength: 6,
                 })}
               />
+              <p ><input type="checkbox" onClick={() => setShowPassword(!showPassword)}  /> {showPassword ? "hide password" : 'show password'}</p>
               {
                 <p className="text-red-500">
                   {errors.password?.type === "pattern" &&
@@ -117,7 +156,7 @@ const Register = () => {
                 <span className="label-text">Confirm Password</span>
               </label>
               <input
-                type="password"
+                type={`${showConfirmPassword ? 'text': 'password'}`}
                 placeholder="Confirm password"
                 className="input input-bordered"
                 {...register("confirmPassword", {
@@ -126,6 +165,7 @@ const Register = () => {
                   minLength: 6,
                 })}
               />
+              <p ><input type="checkbox" onClick={() => setShowConfirmPassword(!showConfirmPassword)}  /> {showConfirmPassword ? "hide password" : 'show password'}</p>
               {
                 <p className="text-red-500">
                   {errors.confirmPassword?.type === "pattern" &&

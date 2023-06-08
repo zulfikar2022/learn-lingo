@@ -3,14 +3,20 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import SocialLogin from "../../Shared/SocialLogin/SocialLogin";
-
+import { useState } from "react";
 
 const Login = () => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = data => {
-        console.log(data.email);
-        console.log(data.password);
-    };
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    console.log(data.email);
+    console.log(data.password);
+  };
+  const [showPassword,setShowPassword] = useState(false);
   return (
     <div className="hero min-h-screen bg-base-200 my-5">
       <Helmet>
@@ -26,7 +32,7 @@ const Login = () => {
           </p>
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-          <form className="card-body"  onSubmit={handleSubmit(onSubmit)}>
+          <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -35,7 +41,7 @@ const Login = () => {
                 type="email"
                 placeholder="email"
                 className="input input-bordered"
-                {...register("email",{required:true})}
+                {...register("email", { required: true })}
               />
             </div>
             <div className="form-control">
@@ -43,11 +49,18 @@ const Login = () => {
                 <span className="label-text">Password</span>
               </label>
               <input
-                type="password"
+                type={`${showPassword ? "text" : "password"}`}
                 placeholder="password"
                 className="input input-bordered"
-                {...register("password",{required:true})}
+                {...register("password", { required: true })}
               />
+              <p>
+                <input
+                  type="checkbox"
+                  onClick={() => setShowPassword(!showPassword)}
+                />{" "}
+                {showPassword ? "hide password" : "show password"}
+              </p>
               {/* <label className="label">
                 <a href="#" className="label-text-alt link link-hover">
                   Forgot password?
@@ -57,16 +70,19 @@ const Login = () => {
             <div className="form-control mt-6">
               <input type="submit" value="Login" className="my-btn" />
             </div>
-            <p>New to this site? <Link className="text-red-600" to="/register">Please Register</Link> </p>
+            <p>
+              New to this site?{" "}
+              <Link className="text-red-600" to="/register">
+                Please Register
+              </Link>{" "}
+            </p>
             <hr />
             <div className="mx-auto">
               <SocialLogin></SocialLogin>
             </div>
           </form>
-         
         </div>
       </div>
-      
     </div>
   );
 };

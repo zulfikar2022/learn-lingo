@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import SocialLogin from "../../Shared/SocialLogin/SocialLogin";
 
 
 const Login = () => {
@@ -11,6 +13,9 @@ const Login = () => {
     };
   return (
     <div className="hero min-h-screen bg-base-200 my-5">
+      <Helmet>
+        <title>Learn Lingo | Login</title>
+      </Helmet>
       <div className="hero-content flex-col lg:flex-row">
         <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold">Login now!</h1>
@@ -53,6 +58,10 @@ const Login = () => {
               <input type="submit" value="Login" className="my-btn" />
             </div>
             <p>New to this site? <Link className="text-red-600" to="/register">Please Register</Link> </p>
+            <hr />
+            <div className="mx-auto">
+              <SocialLogin></SocialLogin>
+            </div>
           </form>
          
         </div>

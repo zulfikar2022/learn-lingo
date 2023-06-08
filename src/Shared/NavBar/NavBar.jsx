@@ -1,8 +1,19 @@
 import { Link } from "react-router-dom";
+import useAuthContext from "../../hooks/useAuthContext";
 // import logo from '../../assets/siteLogo.png';
 
 /* eslint-disable no-unused-vars */
 const NavBar = () => {
+  // const {user} = useContext(authContext);
+  const {user,logOutUser,setUser} = useAuthContext();
+
+  const handleLogOut = () => {
+    logOutUser()
+      .then(res => {
+        setUser(null);
+      })
+  }
+
   const navItems = (
     <>
       <li>
@@ -54,7 +65,11 @@ const NavBar = () => {
           <ul className="menu menu-horizontal px-1 text-xl">{navItems}</ul>
         </div>
         <div className="navbar-end">{/* Button here */}
-            <Link to='/login' className="btn btn-outline">Login</Link>
+        {user && <img className="rounded-full mr-4 h-[70px] w-[70px]" src={`${user.photoURL}`}></img>}
+          {
+            !user ? <Link to='/login' className="btn btn-outline">Login</Link>:
+            <p className="btn btn-outline" onClick={handleLogOut}>LogOut</p>
+          }
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ const NavBar = () => {
       setUser(null);
     });
   };
-
+    console.log('user from navbar ',user);
   const navItems = (
     <>
       <li>

@@ -13,6 +13,9 @@ import AuthProvider from "./AuthProvider/AuthProvider.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Instructors from "./Pages/Instructors/Instructors.jsx";
 import Classes from "./Pages/Classes/Classes.jsx";
+import StudentDashboard from "./Pages/DashBoards/StudentDashboard.jsx";
+import PrivateRoute from "./SecretRoutes/PrivateRoute.jsx";
+import AdminDashboard from "./Pages/DashBoards/AdminDashboard.jsx";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +43,14 @@ const router = createBrowserRouter([
       {
         path:'classes',
         element:<Classes></Classes>
+      },
+      {
+        path:'studentDashboard',
+        element:<PrivateRoute><StudentDashboard></StudentDashboard></PrivateRoute>
+      },
+      {
+        path:'adminDashboard',
+        element:<PrivateRoute><AdminDashboard></AdminDashboard></PrivateRoute>
       }
     ],
   },

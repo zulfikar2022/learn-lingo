@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
+import useUserRole from "../../hooks/useUserRole";
 // import logo from '../../assets/siteLogo.png';
 
 /* eslint-disable no-unused-vars */
@@ -13,6 +14,8 @@ const NavBar = () => {
     });
   };
     console.log('user from navbar ',user);
+    const userRole = useUserRole();
+    console.log('user role from navbar   ',userRole);
   const navItems = (
     <>
       <li>
@@ -26,8 +29,15 @@ const NavBar = () => {
       </li>
       <li>
         {
-         
+          userRole==='student' && <Link to="/studentDashboard">Dashboard</Link>
         }
+        {
+          userRole==='instructor' && <Link to='/instructorDashboard'></Link>
+        }
+        {
+          userRole==='admin' && <Link to='/adminDashboard'>Dashboard</Link>
+        }
+
       </li>
     </>
   );

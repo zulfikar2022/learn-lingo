@@ -18,7 +18,7 @@ const Instructor = ({ name, email, imageLink, studentsNumber, courses }) => {
         <p className="font-bold">Courses: </p>
         <ul>
           {courses.map((c, index) => (
-            <li className="font-semibold" key={index}>{c}</li>
+            <li className="font-semibold" key={index}>#{c.name}</li>
           ))}
         </ul>
       </div>

@@ -14,16 +14,14 @@ const HomePage = () => {
       return res.data;
     },
   });
-  if (!isLoading) {
-    // const {name,email,imageLink,studentsNumber,courses} = instructors;
-  }
+
   return (
     <div>
       <Helmet>
         <title>Learn Lingo | Home</title>
       </Helmet>
 
-      <Slider></Slider>
+      <Slider className="z-0"></Slider>
       <p className="bg-[#01a2a6] text-center p-3 text-4xl font-semibold my-6">
         Our Popular Classes
       </p>
@@ -31,7 +29,7 @@ const HomePage = () => {
       <p className="bg-[#01a2a6] text-center p-3 text-4xl font-semibold my-6">
         Our Popular Instructors
       </p>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid  lg:grid-cols-3 gap-4 ">
         {instructors?.map((instructor) => (
           <Instructor
             key={instructor._id}

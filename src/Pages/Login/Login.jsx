@@ -1,11 +1,16 @@
 /* eslint-disable no-unused-vars */
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SocialLogin from "../../Shared/SocialLogin/SocialLogin";
 import { useState } from "react";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const Login = () => {
+  const {setUser,user,loginWithEmailPass} = useAuthContext();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/";
   const {
     register,
     handleSubmit,
@@ -15,6 +20,12 @@ const Login = () => {
   const onSubmit = (data) => {
     console.log(data.email);
     console.log(data.password);
+    loginWithEmailPass(data.email,data.password)
+      .then(res => {
+        setUser(res.user);
+        navigate(from, { replace: true });
+      })
+     
   };
   const [showPassword,setShowPassword] = useState(false);
   return (

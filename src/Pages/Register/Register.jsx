@@ -9,7 +9,7 @@ import { useState } from "react";
 
 const Register = () => {
   const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/;
-  const { updateUserProfile, setUser,createUser } = useAuthContext();
+  const { updateUserProfile, setUser, createUser } = useAuthContext();
   const {
     register,
     handleSubmit,
@@ -17,8 +17,8 @@ const Register = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const [showPassword,setShowPassword] = useState(false);
-  const [showConfirmPassword,setShowConfirmPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const onSubmit = (data) => {
     if (data.password !== data.confirmPassword) {
@@ -31,48 +31,68 @@ const Register = () => {
       });
       return;
     }
+    const newUser = {
+      name: data.name,
+      email: data.email,
+      imageLink: data.photoURL,
+      selectedClass:[],
+      enrolledClass:[],
+    };
 
     // TODO: users login system should be implemented
-    createUser(data.email,data.password)
-        .then(result => {
-          console.log(result.user);
-          updateUserProfile(data.name,data.photoURL)
-            .then(() => {
-              const createdUser = {name:data.name, email:data.email,role:'student'};
-             fetch('http://localhost:5000/users',{
-              method:'post',
-              body:JSON.stringify(createdUser),
-              headers:{'content-type':'application/json'}
-             })
-                .then(res => res.json())
-                .then(data => {
-                  if(data.insertedId){
-                    reset();
-                    Swal.fire({
-                      position: "center",
-                      icon: "success",
-                      title: "user Created Successfully!!",
-                      showConfirmButton: false,
-                      timer: 1500,
-                    });
-                    setUser(null);
-                    navigate('/');
-                  }
-                })
-            })
-
-        })
-        .catch(error => {
-          console.log(error.message);
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: `${error.message}`,
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        })
-
+    createUser(data.email, data.password)
+      .then((result) => {
+        console.log(result.user);
+      
+        updateUserProfile(data.name, data.photoURL).then(() => {
+          const createdUser = {
+            name: data.name,
+            email: data.email,
+            role: "student",
+          };
+         
+          fetch("http://localhost:5000/users", {
+            method: "post",
+            body: JSON.stringify(createdUser),
+            headers: { "content-type": "application/json" },
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.insertedId) {
+                reset();
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "user Created Successfully!!",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                setUser(null);
+                navigate("/");
+              }
+            });
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: `${error.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
+      fetch("http://localhost:5000/studentCollection", {
+        method: "post",
+        body: JSON.stringify(newUser),
+        headers: { "content-type": "application/json" },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data)
+          Swal.fire('added to the student collection');
+        });
   };
   return (
     <div className="hero min-h-screen bg-base-200 my-5">
@@ -128,7 +148,7 @@ const Register = () => {
                 <span className="label-text">Password</span>
               </label>
               <input
-                type={`${showPassword ? 'text': 'password'}`}
+                type={`${showPassword ? "text" : "password"}`}
                 placeholder="password"
                 className="input input-bordered"
                 {...register("password", {
@@ -137,7 +157,13 @@ const Register = () => {
                   minLength: 6,
                 })}
               />
-              <p ><input type="checkbox" onClick={() => setShowPassword(!showPassword)}  /> {showPassword ? "hide password" : 'show password'}</p>
+              <p>
+                <input
+                  type="checkbox"
+                  onClick={() => setShowPassword(!showPassword)}
+                />{" "}
+                {showPassword ? "hide password" : "show password"}
+              </p>
               {
                 <p className="text-red-500">
                   {errors.password?.type === "pattern" &&
@@ -156,7 +182,7 @@ const Register = () => {
                 <span className="label-text">Confirm Password</span>
               </label>
               <input
-                type={`${showConfirmPassword ? 'text': 'password'}`}
+                type={`${showConfirmPassword ? "text" : "password"}`}
                 placeholder="Confirm password"
                 className="input input-bordered"
                 {...register("confirmPassword", {
@@ -165,7 +191,13 @@ const Register = () => {
                   minLength: 6,
                 })}
               />
-              <p ><input type="checkbox" onClick={() => setShowConfirmPassword(!showConfirmPassword)}  /> {showConfirmPassword ? "hide password" : 'show password'}</p>
+              <p>
+                <input
+                  type="checkbox"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                />{" "}
+                {showConfirmPassword ? "hide password" : "show password"}
+              </p>
               {
                 <p className="text-red-500">
                   {errors.confirmPassword?.type === "pattern" &&

@@ -11,15 +11,13 @@ const useUserRole = () => {
     const authorization = localStorage.getItem('access-token');
     useEffect(() => {
         console.log('from inside the useEffect');
-        fetch(`http://localhost:5000/userRole?email=${userEmail}`,{
-            headers:{authorization}
-        })
+        fetch(`http://localhost:5000/userRole?email=${userEmail}`)
             .then(res => res.json())
             .then(data => {
                 setIsLoading(false);
                 setUserRole(data.role)
             })    
-      }, [userEmail]);
+      }, [userEmail,authorization]);
     return {userRole,isLoading};
 };
 

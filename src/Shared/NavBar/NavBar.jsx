@@ -3,6 +3,7 @@ import useAuthContext from "../../hooks/useAuthContext";
 import useUserRole from "../../hooks/useUserRole";
 import { MdDashboard, MdDashboardCustomize } from "react-icons/md";
 import { RiDashboardFill } from "react-icons/ri";
+import { FaChalkboardTeacher, FaHome } from "react-icons/fa";
 // import logo from '../../assets/siteLogo.png';
 
 /* eslint-disable no-unused-vars */
@@ -21,10 +22,10 @@ const NavBar = () => {
   const navItems = (
     <>
       <li>
-        <Link to='/'>Home</Link>
+        <Link to='/'><FaHome/> Home</Link>
       </li>
       <li>
-        <Link to='/instructors'>Instructors</Link>
+        <Link to='/instructors'><FaChalkboardTeacher/> Instructors</Link>
       </li>
       <li>
         <Link to='/classes'>Classes</Link>

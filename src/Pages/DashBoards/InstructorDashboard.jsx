@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import useAuthContext from "../../hooks/useAuthContext";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 const InstructorDashboard = () => {
   const { user } = useAuthContext();
@@ -13,17 +14,42 @@ const InstructorDashboard = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const [userId,setUserId] = useState('');
+  const [userId, setUserId] = useState("");
   useEffect(() => {
-      fetch(`http://localhost:5000/userId?email=${user.email}`)
-        .then(res => res.json())
-        .then(data => {
-          setUserId(data._id)
-        })
-  },[user.email])
+    fetch(`http://localhost:5000/userId?email=${user.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUserId(data._id);
+      });
+  }, [user.email]);
 
   const onSubmit = (data) => {
-    console.log(data.className);
+    // console.log(data.className);
+    console.log(typeof data.availableSeats);
+    const newCourse = {
+      instructorId: userId,
+      instructorName: user.displayName,
+      courseName: data.className,
+      studentCapability: parseInt(data.availableSeats),
+      price: parseFloat(data.price),
+      approvalStatus: "approved",
+      image: data.imageURL,
+      enrolledStudent: 0,
+    };
+    console.log(newCourse);
+    fetch(`http://localhost:5000/newCourse`, {
+      method: "post",
+      body: JSON.stringify(newCourse),
+      headers: { "content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          Swal.fire("New course inserted successfully");
+          reset();
+        }
+      });
   };
   return (
     <div>
@@ -128,6 +154,9 @@ const InstructorDashboard = () => {
           />
         </form>
       </div>
+      <p className="bg-[#01a2a6] text-center my-5 p-5 text-3xl font-semibold">
+        My Classes
+      </p>
     </div>
   );
 };

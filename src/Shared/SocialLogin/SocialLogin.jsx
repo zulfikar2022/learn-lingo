@@ -20,12 +20,7 @@ const SocialLogin = ({ from }) => {
         body: JSON.stringify(newUser),
         headers: { "content-type": "application/json" },
       })
-          .then(res => res.json())
-          .then(data => {
-            if(!data.insertedId){
-              Swal.fire('this mail address already exists');
-            }
-          })
+         
     });
     navigate('/')
   };

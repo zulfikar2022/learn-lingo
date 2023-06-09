@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
+import { animated, useSpring } from "@react-spring/web";
 
 const SingleClass = ({
   instructorId,
@@ -16,6 +17,10 @@ const SingleClass = ({
   id,
   role,
 }) => {
+  const springs = useSpring({
+    from: { x: 0 },
+    to: { x: 10 },
+  });
   const { user } = useAuthContext();
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,12 +38,14 @@ const SingleClass = ({
       navigate("/login", { state: { from: location } });
     }
     // TODO : What else is not yet done
-    else{
-      fetch(`https://learn-lingo-server.vercel.app/selectClass?email=${user.email}&id=${id}`)
-        .then(res => res.json())
-        .then(data => {
+    else {
+      fetch(
+        `https://learn-lingo-server.vercel.app/selectClass?email=${user.email}&id=${id}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
           // modifiedCount
-          if(data.modifiedCount){
+          if (data.modifiedCount) {
             Swal.fire({
               position: "center",
               icon: "info",
@@ -46,8 +53,7 @@ const SingleClass = ({
               showConfirmButton: false,
               timer: 1000,
             });
-          }
-          else{
+          } else {
             Swal.fire({
               position: "center",
               icon: "info",
@@ -57,12 +63,13 @@ const SingleClass = ({
             });
           }
           console.log(data);
-        })
+        });
     }
   };
 
   return (
-    <div
+    <animated.div
+    style={{...springs}}
       className={`border bg-[#01a2a6] ${
         studentCapability - enrolledStudent === 0 && "bg-red-500"
       }`}
@@ -87,14 +94,18 @@ const SingleClass = ({
         <div className="card-actions justify-end">
           <button
             onClick={() => handleSelect(id)}
-            disabled={(studentCapability - enrolledStudent === 0) || (role==='admin') || (role==='instructor')}
+            disabled={
+              studentCapability - enrolledStudent === 0 ||
+              role === "admin" ||
+              role === "instructor"
+            }
             className="btn btn-outline"
           >
             Select
           </button>
         </div>
       </div>
-    </div>
+    </animated.div>
   );
 };
 

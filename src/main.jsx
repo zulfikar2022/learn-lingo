@@ -17,6 +17,9 @@ import StudentDashboard from "./Pages/DashBoards/StudentDashboard.jsx";
 import PrivateRoute from "./SecretRoutes/PrivateRoute.jsx";
 import AdminDashboard from "./Pages/DashBoards/AdminDashboard.jsx";
 import InstructorDashboard from "./Pages/DashBoards/InstructorDashboard.jsx";
+import ErrorPage from "./ErrorPage/ErrorPage.jsx";
+
+
 
 const queryClient = new QueryClient();
 
@@ -24,6 +27,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayOut></MainLayOut>,
+    errorElement:<ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",

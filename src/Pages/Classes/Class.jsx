@@ -34,7 +34,7 @@ const SingleClass = ({
     }
     // TODO : What else is not yet done
     else{
-      fetch(`http://localhost:5000/selectClass?email=${user.email}&id=${id}`)
+      fetch(`https://learn-lingo-server.vercel.app/selectClass?email=${user.email}&id=${id}`)
         .then(res => res.json())
         .then(data => {
           // modifiedCount

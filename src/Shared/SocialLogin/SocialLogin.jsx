@@ -15,7 +15,7 @@ const SocialLogin = ({ from }) => {
       const loggedUser = result.user;
       setUser(loggedUser);
       const newUser = { name: loggedUser.displayName, email: loggedUser.email,role:'student'};
-      fetch(`http://localhost:5000/users`, {
+      fetch(`https://learn-lingo-server.vercel.app/users`, {
         method: "post",
         body: JSON.stringify(newUser),
         headers: { "content-type": "application/json" },

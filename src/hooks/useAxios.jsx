@@ -2,16 +2,16 @@ import axios from "axios";
 
 
 const axiosNormal = axios.create({
-  baseURL: "http://localhost:5000/",
+  baseURL: "https://learn-lingo-server.vercel.app/",
 });
 const axiosStudents = axios.create({
-  baseURL: "http://localhost:5000/",
+  baseURL: "https://learn-lingo-server.vercel.app/",
 });
 const axiosInstructors = axios.create({
-  baseURL: "http://localhost:5000/",
+  baseURL: "https://learn-lingo-server.vercel.app/",
 });
 const axiosAdmin = axios.create({
-  baseURL: "http://localhost:5000/",
+  baseURL: "https://learn-lingo-server.vercel.app/",
 });
 const useAxios = () => {
   return { axiosNormal, axiosStudents, axiosInstructors, axiosAdmin };

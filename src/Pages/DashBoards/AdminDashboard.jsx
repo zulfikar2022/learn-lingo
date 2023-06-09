@@ -8,7 +8,7 @@ const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/allUsers`)
+    fetch(`https://learn-lingo-server.vercel.app/allUsers`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

@@ -19,7 +19,7 @@ const InstructorDashboard = () => {
   const [myClasses, setMyClasses] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/userId?email=${user.email}`)
+    fetch(`https://learn-lingo-server.vercel.app/userId?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => {
         const Id = data._id;
@@ -28,7 +28,7 @@ const InstructorDashboard = () => {
   }, [user.email]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/instructorsClasses?id=${myId}`)
+    fetch(`https://learn-lingo-server.vercel.app/instructorsClasses?id=${myId}`)
       .then((res) => res.json())
       .then((data) => {
         setMyClasses([...data]);
@@ -50,7 +50,7 @@ const InstructorDashboard = () => {
         enrolledStudent: 0,
       };
       console.log(newCourse);
-      fetch(`http://localhost:5000/newCourse`, {
+      fetch(`https://learn-lingo-server.vercel.app/newCourse`, {
         method: "post",
         body: JSON.stringify(newCourse),
         headers: { "content-type": "application/json" },

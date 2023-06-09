@@ -10,7 +10,7 @@ const useUserRole = () => {
   const authorization = localStorage.getItem("access-token");
   useEffect(() => {
     console.log("from inside the useEffect");
-    fetch(`http://localhost:5000/userRole?email=${userEmail}`)
+    fetch(`https://learn-lingo-server.vercel.app/userRole?email=${userEmail}`)
       .then((res) => res.json())
       .then((data) => {
         setIsLoading(false);

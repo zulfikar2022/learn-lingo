@@ -9,7 +9,7 @@ const StudentDashboard = () => {
   const [selectedClasses, setSelectedClasses] = useState([]);
   const [classDetails, setClassDetails] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:5000/studentClasses?email=${user.email}`)
+    fetch(`https://learn-lingo-server.vercel.app/studentClasses?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => {
         setSelectedClasses(data);
@@ -21,7 +21,7 @@ const StudentDashboard = () => {
   useEffect(() => {
     const temp = [];
     selectedClasses.map((sc) => {
-      fetch(`http://localhost:5000/getCourse?id=${sc}`)
+      fetch(`https://learn-lingo-server.vercel.app/getCourse?id=${sc}`)
         .then((res) => res.json())
         .then((data) => {
           console.log("data from inside the second useEffect  ", data);
@@ -35,7 +35,7 @@ const StudentDashboard = () => {
 
   const handleCourseDelete = (id) => {
     console.log(id);
-    fetch(`http://localhost:5000/deleteCourseFormUser?id=${id}`,{
+    fetch(`https://learn-lingo-server.vercel.app/deleteCourseFormUser?id=${id}`,{
         method:"delete",
     })
         // .then(res => {

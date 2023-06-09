@@ -51,7 +51,7 @@ const Register = () => {
             role: "student",
           };
          
-          fetch("http://localhost:5000/users", {
+          fetch("https://learn-lingo-server.vercel.app/users", {
             method: "post",
             body: JSON.stringify(createdUser),
             headers: { "content-type": "application/json" },
@@ -83,7 +83,7 @@ const Register = () => {
           timer: 1500,
         });
       });
-      fetch("http://localhost:5000/studentCollection", {
+      fetch("https://learn-lingo-server.vercel.app/studentCollection", {
         method: "post",
         body: JSON.stringify(newUser),
         headers: { "content-type": "application/json" },

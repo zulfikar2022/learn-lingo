@@ -2,20 +2,19 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 
-import useUserRole from "../../hooks/useUserRole";
+
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
 
-  const { userRole } = useUserRole();
   useEffect(() => {
-    fetch(`http://localhost:5000/allUsers?role=${userRole}`)
+    fetch(`http://localhost:5000/allUsers`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         setUsers(data);
       });
-  }, [userRole]);
+  }, []);
   // console.log('users ',users);
   return (
     <div>
@@ -26,7 +25,7 @@ const AdminDashboard = () => {
         All Users
       </p>
       <div className="grid grid-cols-3 gap-5">
-        {users.map((user) => (
+        {users?.map((user) => (
           <div key={user._id} className=" bg-[#01a2a6] ">
             <div className="card-body">
               <h2 className="card-title">

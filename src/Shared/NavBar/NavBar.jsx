@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
 import useUserRole from "../../hooks/useUserRole";
+import { MdDashboard, MdDashboardCustomize } from "react-icons/md";
+import { RiDashboardFill } from "react-icons/ri";
 // import logo from '../../assets/siteLogo.png';
 
 /* eslint-disable no-unused-vars */
@@ -29,13 +31,13 @@ const NavBar = () => {
       </li>
       <li>
         {
-          userRole==='student' && <Link to="/studentDashboard">Dashboard</Link>
+          userRole==='student' && <Link to="/studentDashboard"> <MdDashboard/> Dashboard</Link>
         }
         {
-          userRole==='instructor' && <Link to='/instructorDashboard'></Link>
+          userRole==='instructor' && <Link to='/instructorDashboard'><MdDashboardCustomize/> Dashboard</Link>
         }
         {
-          userRole==='admin' && <Link to='/adminDashboard'>Dashboard</Link>
+          userRole==='admin' && <Link to='/adminDashboard'><RiDashboardFill/> Dashboard</Link>
         }
 
       </li>

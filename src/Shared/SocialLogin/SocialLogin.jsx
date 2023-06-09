@@ -20,9 +20,9 @@ const SocialLogin = ({ from }) => {
         body: JSON.stringify(newUser),
         headers: { "content-type": "application/json" },
       })
-         
+      navigate('/')
     });
-    navigate('/')
+    
   };
 
   return (

@@ -14,42 +14,56 @@ const InstructorDashboard = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const [userId, setUserId] = useState("");
+
+  const [myId, setMyId] = useState("");
+  const [myClasses, setMyClasses] = useState([]);
+
   useEffect(() => {
     fetch(`http://localhost:5000/userId?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => {
-        setUserId(data._id);
+        const Id = data._id;
+        setMyId(Id);
       });
   }, [user.email]);
 
-  const onSubmit = (data) => {
-    // console.log(data.className);
-    console.log(typeof data.availableSeats);
-    const newCourse = {
-      instructorId: userId,
-      instructorName: user.displayName,
-      courseName: data.className,
-      studentCapability: parseInt(data.availableSeats),
-      price: parseFloat(data.price),
-      approvalStatus: "approved",
-      image: data.imageURL,
-      enrolledStudent: 0,
-    };
-    console.log(newCourse);
-    fetch(`http://localhost:5000/newCourse`, {
-      method: "post",
-      body: JSON.stringify(newCourse),
-      headers: { "content-type": "application/json" },
-    })
+  useEffect(() => {
+    fetch(`http://localhost:5000/instructorsClasses?id=${myId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        if (data.insertedId) {
-          Swal.fire("New course inserted successfully");
-          reset();
-        }
+        setMyClasses([...data]);
       });
+  }, [myId]);
+
+  const onSubmit = (data) => {
+    // console.log(data.className);
+    console.log('user Id :  ',myId);
+    if (myId) {
+      const newCourse = {
+        instructorId: myId,
+        instructorName: user.displayName,
+        courseName: data.className,
+        studentCapability: parseInt(data.availableSeats),
+        price: parseFloat(data.price),
+        approvalStatus: "approved",
+        image: data.imageURL,
+        enrolledStudent: 0,
+      };
+      console.log(newCourse);
+      fetch(`http://localhost:5000/newCourse`, {
+        method: "post",
+        body: JSON.stringify(newCourse),
+        headers: { "content-type": "application/json" },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.insertedId) {
+            Swal.fire("New course inserted successfully");
+            reset();
+          }
+        });
+    }
   };
   return (
     <div>
@@ -157,6 +171,29 @@ const InstructorDashboard = () => {
       <p className="bg-[#01a2a6] text-center my-5 p-5 text-3xl font-semibold">
         My Classes
       </p>
+      <div className="grid  lg:grid-cols-3 gap-4">
+        {myClasses?.map((myClass) => (
+          <div key={myClass._id} className="card bg-[#01a2a6]">
+            <figure>
+              <img
+                src={myClass.image}
+                className="w-full h-[300px]"
+                alt="Shoes"
+              />
+            </figure>
+            <div className="card-body">
+              <h2 className="card-title">{myClass.courseName}</h2>
+              <p>
+                Total Enrolled Students :{" "}
+                <span className="font-bold">{myClass.enrolledStudent}</span>
+              </p>
+              {/* <div className="card-actions justify-end">
+                <button className="btn btn-primary">Buy Now</button>
+              </div> */}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

@@ -10,7 +10,7 @@ const Login = () => {
   const {setUser,user,loginWithEmailPass} = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location?.state?.from?.pathname || "/";
+  // const from = location?.state?.from?.pathname || "/";
   const {
     register,
     handleSubmit,
@@ -23,7 +23,7 @@ const Login = () => {
     loginWithEmailPass(data.email,data.password)
       .then(res => {
         setUser(res.user);
-        navigate(from, { replace: true });
+        navigate('/');
       })
      
   };

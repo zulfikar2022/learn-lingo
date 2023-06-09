@@ -10,6 +10,7 @@ import { FaChalkboardTeacher, FaHome } from "react-icons/fa";
 const NavBar = () => {
   // const {user} = useContext(authContext);
   const { user, logOutUser, setUser } = useAuthContext();
+  console.log(user);
 
   const handleLogOut = () => {
     logOutUser().then((res) => {

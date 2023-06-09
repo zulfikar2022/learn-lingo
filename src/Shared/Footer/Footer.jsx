@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  // TODO: footer logo should be updated. 
   return (
     <div className="bg-[#01a2a6] my-5 font-bold">
       <footer className="footer p-10  text-base-content">

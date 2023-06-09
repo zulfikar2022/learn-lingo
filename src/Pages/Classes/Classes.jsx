@@ -18,7 +18,7 @@ const Classes = () => {
   });
 
   const { setUser, user } = useAuthContext();
-  const userRole = useUserRole();
+  const {userRole} = useUserRole();
  
 
   return (

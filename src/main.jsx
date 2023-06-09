@@ -16,6 +16,7 @@ import Classes from "./Pages/Classes/Classes.jsx";
 import StudentDashboard from "./Pages/DashBoards/StudentDashboard.jsx";
 import PrivateRoute from "./SecretRoutes/PrivateRoute.jsx";
 import AdminDashboard from "./Pages/DashBoards/AdminDashboard.jsx";
+import InstructorDashboard from "./Pages/DashBoards/InstructorDashboard.jsx";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path:'adminDashboard',
         element:<PrivateRoute><AdminDashboard></AdminDashboard></PrivateRoute>
+      },
+      {
+        path:'instructorDashboard',
+        element:<PrivateRoute><InstructorDashboard></InstructorDashboard></PrivateRoute>
       }
     ],
   },

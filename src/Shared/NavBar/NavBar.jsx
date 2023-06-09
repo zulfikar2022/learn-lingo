@@ -14,7 +14,7 @@ const NavBar = () => {
     });
   };
     console.log('user from navbar ',user);
-    const userRole = useUserRole();
+    const {userRole} = useUserRole();
     console.log('user role from navbar   ',userRole);
   const navItems = (
     <>

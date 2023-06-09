@@ -11,7 +11,7 @@ import useUserRole from "../../hooks/useUserRole";
 
 const HomePage = () => {
   const {user} = useAuthContext();
-  const userRole = useUserRole();
+  const {userRole} = useUserRole();
   
   const { axiosNormal } = useAxios();
   const { data: instructors = [], isLoading } = useQuery({

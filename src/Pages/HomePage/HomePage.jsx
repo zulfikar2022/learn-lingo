@@ -8,10 +8,12 @@ import SingleClass from "../Classes/Class";
 import { useEffect, useState } from "react";
 import useAuthContext from "../../hooks/useAuthContext";
 import useUserRole from "../../hooks/useUserRole";
+import './theme.css'
 
 const HomePage = () => {
   const {user} = useAuthContext();
   const {userRole} = useUserRole();
+  const [darkTheme,setDarkTheme] = useState(false);
   
   const { axiosNormal } = useAxios();
   const { data: instructors = [], isLoading } = useQuery({
@@ -35,7 +37,7 @@ const HomePage = () => {
       <Helmet>
         <title>Learn Lingo | Home</title>
       </Helmet>
-
+        
       <Slider className="z-0"></Slider>
       <p className="bg-[#01a2a6] text-center p-3 text-4xl font-semibold my-6">
         Our Popular Classes

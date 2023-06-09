@@ -21,10 +21,11 @@ const SingleClass = ({
   const navigate = useNavigate();
   const handleSelect = (id) => {
     console.log(id);
+    console.log(id);
     if (!user) {
       Swal.fire({
         position: "center",
-        icon: "info",
+        icon: "success",
         title: "You need to login first to select any course",
         showConfirmButton: false,
         timer: 1500,
@@ -32,6 +33,32 @@ const SingleClass = ({
       navigate("/login", { state: { from: location } });
     }
     // TODO : What else is not yet done
+    else{
+      fetch(`http://localhost:5000/selectClass?email=${user.email}&id=${id}`)
+        .then(res => res.json())
+        .then(data => {
+          // modifiedCount
+          if(data.modifiedCount){
+            Swal.fire({
+              position: "center",
+              icon: "info",
+              title: "The course is added to you list",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+          }
+          else{
+            Swal.fire({
+              position: "center",
+              icon: "info",
+              title: "The course is already added",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+          }
+          console.log(data);
+        })
+    }
   };
 
   return (

@@ -10,7 +10,7 @@ const MainLayOut = () => {
   return (
     <div className={`lg:px-5 mx-auto lg:py-5 ${isDark ? 'bg-black' :'bg-white'}`}>
       <NavBar></NavBar>
-      <p onClick={() => setIsDark(!isDark)} className="border p-4 w-fit mt-3 hover:cursor-pointer font-bold">
+      <p onClick={() => setIsDark(!isDark)} className={`border p-4 w-fit mt-3 hover:cursor-pointer font-bold ${isDark? 'text-white': 'text-black'}`}>
        {isDark ? "Light Mode" : "Dark Mode"}
       </p>
       <Outlet className={``}></Outlet>
